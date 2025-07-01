@@ -1,0 +1,28 @@
+// QuotesManager.cpp
+#include "QuotesManager.h"
+#include <QFile>
+#include <QTextStream>
+#include <QRandomGenerator>
+
+QuotesManager::QuotesManager(const QString &filePath, QObject *parent)
+    : QObject(parent)
+{
+    QFile file(filePath);
+    if (file.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            if (!line.trimmed().isEmpty())
+                m_quotes << line;
+        }
+        file.close();
+    }
+}
+
+QString QuotesManager::randomQuote()
+{
+    if (m_quotes.isEmpty()) return QString("Take a deep breath!");
+    int index = QRandomGenerator::global()->bounded(m_quotes.size());
+    return m_quotes.at(index);
+}
+
