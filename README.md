@@ -1,0 +1,3 @@
+## Ultradium: A lightweight, customizable Qt application for work-break scheduling. Android and GNU-Linux.
+
+
