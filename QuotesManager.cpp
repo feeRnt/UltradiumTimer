@@ -8,6 +8,8 @@ QuotesManager::QuotesManager(const QString &filePath, QObject *parent)
     : QObject(parent)
 {
     QFile file(filePath);
+
+    //qInfo() << "hello?";
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
         while (!in.atEnd()) {
@@ -27,6 +29,11 @@ QString QuotesManager::randomQuote()
         return "No quotes found.";
 
     int index = QRandomGenerator::global()->bounded(m_quotes.size());
+    // qInfo() << "All quotes are: " << m_quotes;
+    /*
+     * qInfo() << "Printing nth line of quotesfile. n = " << index;
+     * qInfo() << "It will be this: " << m_quotes.at(index);
+    */
     return m_quotes.at(index);
 }
 

@@ -1,10 +1,10 @@
 // TimerManager.h
-#pragma once
+#pragma once //include only once in compilation
 
 #include <QObject>
 #include <QTimer>
 
-class TimerManager : public QObject {
+class TimerManager : public QObject { // A class TimerManager, inherited characteristics from QObject object
     Q_OBJECT
     Q_PROPERTY(int remainingTime READ remainingTime NOTIFY timeUpdated)
     Q_PROPERTY(bool onBreak READ onBreak NOTIFY breakChanged)
@@ -12,7 +12,7 @@ class TimerManager : public QObject {
 public:
     explicit TimerManager(QObject *parent = nullptr);
 
-    Q_INVOKABLE void start(int workDuration, int breakDuration, bool ultradianMode);
+    Q_INVOKABLE void start(float workDuration, float breakDuration, bool ultradianMode);
     Q_INVOKABLE void stop();
 
     int remainingTime() const { return m_remainingTime; }
