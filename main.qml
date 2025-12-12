@@ -34,6 +34,7 @@ ApplicationWindow {
     //property string textstring: "isRunning = " + isRunning
     property int counter: 0
     property string currentQuote: ""
+    property bool q_breakNess: true
 
     Column {
         //anchors.centerIn: parent
@@ -75,29 +76,40 @@ ApplicationWindow {
             }
             anchors.horizontalCenter: parent.horizontalCenter
             onClicked: {
+                q_breakNess = timerManager.onBreak
                 /*
                 if (counter == 3) {
-                    timerManager.start(0, 30, true)
                     isRunning = true
+                    timerManager.start(0, 30, true)
                 }
                 */
                 if (isRunning) {
                     //counter = counter + 1
+                    timerManager.onPause = true
+                    //timerManager.onBreak = true
                     timerManager.stop()
                     isRunning = false
-                    //timerManager.onBreak = true
                 }
                 else if (!isRunning && timerManager.remainingTime > 0) {
-                    timerManager.start(timerManager.remainingTime/60, timerManager.m_breakDuration, false);
-                    isRunning = true
+                    if (timerManager.onBreak) {
+                        timerManager.start(timerManager.m_workDuration/60, timerManager.remainingTime/60, false, q_breakNess);
+                        // Selecting whether to run break or work time is handled in timerManager. Keep the order correct here
+                        isRunning = true
+                        timerManager.onPause = false
+                    }
+                    else {
+                        timerManager.start(timerManager.remainingTime/60, timerManager.m_breakDuration/60, false, q_breakNess);
+                        isRunning = true
+                        timerManager.onPause = false
+                    }
                     // remainingTime is in seconds, function prototype is in minutes
                 }
-
                 else {
-                    timerManager.start(25, 5, false) // or use user inputs
-                    isRunning = true
-                    //timerManager.onBreak = false
-
+                    //timerManager.start(25, 5, false) // or use user inputs
+                    //timerManager.m_onBreak = false
+                    timerManager.start(25, 5, false, false) // or use user inputs
+		    isRunning = true // initially turn break off with q_breakNess
+                    timerManager.onPause = false
                 }
             }
         }

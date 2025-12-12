@@ -12,7 +12,7 @@ class TimerManager : public QObject { // A class TimerManager, inherited charact
 public:
     explicit TimerManager(QObject *parent = nullptr);
 
-    Q_INVOKABLE void start(float workDuration, float breakDuration, bool ultradianMode);
+    Q_INVOKABLE void start(float workDuration, float breakDuration, bool ultradianMode, bool breakNess);
     Q_INVOKABLE void stop();
 
     int remainingTime() const { return m_remainingTime; }

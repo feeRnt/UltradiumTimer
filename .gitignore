@@ -1,6 +1,6 @@
 *.ignore*
-build*/*
-.qtcreator
+build/
+.qtcreator/
 
 
 !.gitignore
