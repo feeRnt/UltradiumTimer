@@ -15,9 +15,8 @@ add_executable(${PROJECT_NAME}
     QuotesManager.h
     quotes.csv
     qml.qrc
+    quotes_generic.csv
     sound_resources.qrc
-
-
 )
 
 target_link_libraries(${PROJECT_NAME}
