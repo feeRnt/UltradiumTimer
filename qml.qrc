@@ -1,3 +1,5 @@
+<!--SPDX-License-Identifier: GPL-3.0-only-->
+<!-- Main Qt Resource Collection file for UltradiumTimer-->
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>

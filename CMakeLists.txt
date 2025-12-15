@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# CMake build system lists file for UltradiumTimer
 cmake_minimum_required(VERSION 3.16)
 project(UltradiumTimer)
 

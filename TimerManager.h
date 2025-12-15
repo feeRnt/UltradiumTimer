@@ -1,3 +1,22 @@
+// SPDX-License-Identifier: GPL-3.0-only
+/* TimerManager.h - Handle the timer functions for the work-break scheduling
+ *
+ * Copyright (C) 2025 feeRnt; <81442162+feeRnt@users.noreply.github.com>
+
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+
 // TimerManager.h
 #pragma once //include only once in compilation
 

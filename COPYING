@@ -1,0 +1,37 @@
+The core UltradiumTimer software, built with Qt and C++ under an open-source license,
+is copyright under the GNU General Public License v3.0 (GPL-3.0):--
+
+    SPDX-License-Identifier: GPL-3.0-only
+
+
+Parts of the program's resources bear different licensing. These are:
+
+- The sound effect for entering into a long break:
+sound_resources/231970__copyc4t__ding-4-secs-faded.flac ;
+Copyright: copyc4t, at www.freesound.org, under CC-BY 4.0:
+Ding! (4 secs, faded) by copyc4t -- https://freesound.org/s/231970/ -- License: Attribution 4.0 :--
+
+    SPDX-License-Identifier: CC-BY-4.0
+
+
+- The sound effects for entering a short break and entering a work period:
+sound_resources/515643__mashedtatoes2__ding2.wav
+sound_resources/515612__mashedtatoes2__ding1.wav ;
+Copyright: MashedTatoes2, at www.freesound.org, under CC0:
+Ding Collection by MashedTatoes2 -- https://freesound.org/people/MashedTatoes2/packs/29009/ -- License: Creative Commons 0 :--
+
+    SPDX-License-Identifier: CC0-1.0
+
+- Additionally, the inspirational quotes shown optionally during the work period are
+used under a fair use agreement for educational or critical purposes,
+whereby the original authors are cited in any such instance.
+These quotes reside in the quotes.csv file of this software's repository.
+
+
+The full versions of these licenses are provided with this software at the following locations:
+LICENSES/GPL-3.0
+LICENSES/CC-BY-4.0
+LICENSES/CC0-1.0
+
+An SPDX-License-Identifier and a copyright notice is provided with each non-binary file,
+to aid in licensing along with the overview of this COPYING file.

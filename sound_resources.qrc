@@ -1,3 +1,5 @@
+<!--SPDX-License-Identifier: GPL-3.0-only-->
+<!-- Qt Resource Collection file for sounds -->
 <RCC>
     <qresource prefix="/sound_resources"/>
     <qresource prefix="/">
