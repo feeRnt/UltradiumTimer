@@ -61,11 +61,15 @@ be released in the future.
 Despite its rudimentary nature, I thought I should paste some photos of the app. Here they are:
 
 
-![The app as it is in break mode, yes it is lovely green](Pictures/image1.png)
-![What it looks like during a work cycle](Pictures/image2.png)
-Did I mention there are quotes?
+<img src="./Pictures/image1.png" width="745" alt="The app as it is in break mode, yes it is lovely green" />
+<br>
+And here is another view of the app in the working phase,
+<img src="./Pictures/image2.png" width="745" alt="What it looks like during a work cycle" />
+<br>    
 
+Did I mention there are quotes?    
 
+----
 
 Credits: 
 - https://www.asianefficiency.com/productivity/ultradian-rhythms/ , this pretty nice article introduced me to the topic some months back    
