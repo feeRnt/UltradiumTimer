@@ -18,8 +18,9 @@
 
 
 import QtQuick 2.15
-import QtQuick.Controls 2.15
+//import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
+//import QtQuick.Dialogs 2
 import QtQuick.Controls.Material 2.4
 //import QtQuick.Controls.Fusion
 
@@ -38,14 +39,23 @@ ApplicationWindow {
     //width: mainWindow.width
     //height: mainWindow.height
 
+
     Item {
         id: colorItem
-        property color windowBgColor: timerManager.onBreak? "#48d291" : "#ffbdbd" //darkYellow doesn't work? Why?
+        /*if file
+            workBgColor: workBgColor INI value
+            breakColor: breakBgColor INI value
+        else
+            workColor: 48d291
+            breakColor: ffbdbd;
+            save to INI (nah just always have the ini file.. but what if the user deletes the ini?? OOOHhhhh right.)
+        */
+            property color windowBgColor: timerManager.onBreak? "#48d291" : "#ffbdbd" //darkYellow doesn't work? Why?
         //oldWork: "#" "#c4808d"
-        property real windowFgColor: {
-            var r = windowBgColor.r;
-            var g = windowBgColor.g;
-            var b = windowBgColor.b;
+        function getFgColor(bgColor) {
+            var r = bgColor.r;
+            var g = bgColor.g;
+            var b = bgColor.b;
 
             var fgBrightness = Math.sqrt(
                 0.241 * r * r +
@@ -53,8 +63,11 @@ ApplicationWindow {
                 0.068 * b * b
             );
             return fgBrightness;
-        // Credits: https://www.nbdtech.com/Blog/archive/2008/04/27/Calculating-the-Perceived-Brightness-of-a-Color.aspx
+            /* Credits: https: Based on formula from
+            https://www.nbdtech.com/Blog/archive/2008/04/27/Calculating-the-Perceived-Brightness-of-a-Color.aspx
+            https://alienryderflex.com/hsp.html */
         }
+        property color windowFgColor: getFgColor(windowBgColor)
     }
 
     color: colorItem.windowBgColor
@@ -63,11 +76,120 @@ ApplicationWindow {
 
     property bool isRunning: false
     property string currentQuote: ""
-    property bool q_breakNess: true
+    property bool qml_breakness: true
     property bool quotesOn: false
     property int counterUser: 0
-    property bool q_ultradianModeRequested: false
+    property bool qml_ultradianModeRequested: false
     property int longBreakAfter: 3
+    property bool settingsOn: false
+
+    property bool qml_eyeTimerIsRunning: false
+    property bool qml_onEyeBreak: false
+
+    header: ToolBar {
+
+        //RowLayout {
+            //anchors.fill: parent
+            //background: colorItem.windowBgColor
+            ToolButton {
+                id: header_settings_button
+                text: "\u2630"
+                font.pointSize: 18
+                onClicked: {
+                    settingsOn = !settingsOn
+                }
+            }
+            height: header_settings_button.height * .5
+            /*Label {
+                text: "Title"
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                //Layout.fillWidth: true
+            }
+            */
+            /*ToolButton {
+                text: qsTr("⋮")
+                onClicked: menu.open()
+            }
+            */
+        }
+    //}
+
+    /*SettingsMenu {
+        visible: settingsOn ? true : false
+    }
+    */
+
+    Rectangle {
+     //   width: parent.width
+     //   height: parent.heights
+        id: settingsWindow
+        anchors.fill: parent
+        opacity: 1
+        visible: settingsOn ? true : false
+        z: 10
+
+        property color settingsBgColor: Qt.lighter(colorItem.windowBgColor, .5)
+        property color settingsFgColor: colorItem.getFgColor(settingsBgColor)
+        color: "black"
+        border.color: "black"
+        gradient: Gradient {
+            GradientStop {
+                position: 0.00;
+                color: "#000000";
+            }
+            GradientStop {
+                position: 1.00;
+                color: "#ffffff";
+            }
+        }
+
+        Rectangle {
+            anchors.fill: parent //this is imperative for subcomponents
+            color: settingsWindow.settingsBgColor
+
+            Behavior on visible {
+                NumberAnimation {
+                    from: 0
+                    to: 1
+                    duration: 200
+                    easing.type: Easing.InOutQuad
+                }
+            }
+
+            Rectangle {
+                id: color_selector_box
+                anchors.horizontalCenter: parent.horizontalCenter
+                Text {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    id: settings_bgcolor_text
+                    text: "Change the background colors?"
+                    color: settingsWindow.settingsFgColor
+                }
+
+                Button {
+                    id: colorSelectorButton
+                    anchors.left: settings_bgcolor_text.right
+                    text: {
+                    "\u1f3a8"
+                    }
+                    background:
+                        Rectangle {
+                        color: "transparent"
+                        border.width: 0
+                    }
+                    onClicked: {
+                        //colorDialog.open
+                        colorPicker.
+                        colorItem.windowFgColor = colorDialog.colorDialogPickedColor
+                    }
+                }
+
+            }
+        }
+    }
+
 
     Popup {
         id: popup
@@ -99,7 +221,18 @@ ApplicationWindow {
                radius: 5
         }
     }
+/*
+    ColorDialog {
+        property color pickedColor
+        property color colorDialogPickedColor
+        id: colorDialog
+        title: "Pick the breaktime color:"
+        pickedColor: Qt.rgba(1, 1, 1, 1)
 
+        onAccepted:
+            colorDialogPickedColor = pickedColor
+    }
+*/
     Column {
         id: leftColumn
         width: (1 - mainColumn.width )/2 //0.275
@@ -109,6 +242,7 @@ ApplicationWindow {
         anchors.right: mainColumn.left
         //anchors.rightMargin: 2
         visible: true
+
 
         /*Item {
             id: workBreakTimeSelector
@@ -358,7 +492,7 @@ ApplicationWindow {
             anchors.horizontalCenter: parent.horizontalCenter
             Material.background: Material.Pink
             onClicked: {
-                q_breakNess = timerManager.onBreak
+                qml_breakness = timerManager.onBreak
                 /*
                 if (counter == 3) {
                     isRunning = true
@@ -374,13 +508,13 @@ ApplicationWindow {
                 }
                 else if (!isRunning && timerManager.remainingTime > 0) {
                     if (timerManager.onBreak) {
-                        timerManager.start(timerManager.m_workDuration/60, timerManager.remainingTime/60, false, q_breakNess, timerManager.counter);
+                        timerManager.start(timerManager.m_workDuration/60, timerManager.remainingTime/60, false, qml_breakness, timerManager.counter);
                         // Selecting whether to run break or work time is handled in timerManager. Keep the order correct here
                         isRunning = true
                         timerManager.onPause = false
                     }
                     else {
-                        timerManager.start(timerManager.remainingTime/60, timerManager.m_breakDuration/60, false, q_breakNess, timerManager.counter);
+                        timerManager.start(timerManager.remainingTime/60, timerManager.m_breakDuration/60, false, qml_breakness, timerManager.counter);
                         isRunning = true
                         timerManager.onPause = false
                     }
@@ -390,8 +524,8 @@ ApplicationWindow {
                     //timerManager.start(25, 5, false) // or use user inputs
                     //timerManager.m_onBreak = false
                     timerManager.workPeriod //m_elements are not accessible by QML... Only Q_PROPERTY listed vars are
-                    timerManager.start(timerManager.workPeriod_min, timerManager.shortBreakPeriod_min, q_ultradianModeRequested, false, counterUser) // or use user inputs
-                    isRunning = true // initially turn break off with q_breakNess
+                    timerManager.start(timerManager.workPeriod_min, timerManager.shortBreakPeriod_min, qml_ultradianModeRequested, false, counterUser) // or use user inputs
+                    isRunning = true // initially turn break off with qml_breakness
                     timerManager.onPause = false // <--- wont' work?
                 }
             }
@@ -447,8 +581,108 @@ ApplicationWindow {
         anchors.left: mainColumn.right
         anchors.right: parent.right
         visible: true
+
         CheckBox {
             text: "yolo?"
+        }
+
+        Text {
+            visible: false
+            id: dummyText
+            text: "👁   00:00"
+            font.pixelSize: 19
+        }
+
+        Rectangle {
+            color: eyeTimer.onEyeBreak ? "#992430" : "Blue"
+            id: eyeBreakTimer
+            visible: true
+            property real width_largest: eyeBreakTimerText.width + eyeBreakTimerText.width*0.6
+            property real height_largest: eyeBreakTimerText.height + 4
+
+            /*width:  width_largest > eyeBreakTimerText.width + eyeBreakTimerText.width*0.6 ?
+                        width_largest
+                      : eyeBreakTimerText.width + eyeBreakTimerText.width*0.6*/
+            width: dummyText.width + dummyText.width*0.6
+            height: eyeBreakTimerText.height + 4 // a little padding looks nice here
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Text {
+                id: eyeBreakTimerText
+                text: eyeTimer.onEyeBreak ? "👁   " + Qt.formatTime(new Date(eyeTimer.eyeTimerRemainingTime * 1000), "mm:ss")
+                                          : "🗺️   " + Qt.formatTime(new Date(eyeTimer.eyeTimerRemainingTime * 1000), "mm:ss")
+                font.pixelSize: 19
+                color: colorItem.windowFgColor
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+        }
+
+        Text {
+            id: eyeBreakText
+            visible: true
+            text: eyeTimer.onEyeBreak ? "Give your eyes a break!\n"
+            /*: "asd " + String.fromCharCode(0x1F441) +  "w \u128065 toooo \u1F441 toooo \uF09F9181"//"\n\n\n"
+               Just not working for some reason */
+            : " --- \n" // padding for consistent height. With empty space or no character, it is evaluated as non existent space
+            anchors.horizontalCenter: parent.horizontalCenter
+
+
+            font.pixelSize: 17
+            //style: Text.Outline
+            wrapMode: Text.Wrap
+            bottomPadding: 3
+            // font.family: "Segoe UI ladflks" // mention emoji font in main.cpp
+        }
+
+        Button {
+            id: eyeTimerOnOffSwitch
+            text: {
+                color: colorItem.windowFgColor
+                qml_eyeTimerIsRunning ? "Stop" : "Start"
+            }
+            //anchors.left: parent.horizontalCenter - 1
+            anchors.horizontalCenter: parent.horizontalCenter
+            Material.background: Material.Red
+            onClicked: {
+                qml_onEyeBreak = eyeTimer.onEyeBreak
+
+                if (qml_eyeTimerIsRunning) {
+                    eyeTimer.eyeTimerStop()
+                    qml_eyeTimerIsRunning = false
+                }
+                else if (!qml_eyeTimerIsRunning && eyeTimer.eyeTimerRemainingTime > 0) {
+                    if (eyeTimer.onEyeBreak) {
+                        eyeTimer.eyeTimerStart(eyeTimer.eyeTimerDuration, eyeTimer.eyeTimerRemainingTime/60, qml_onEyeBreak);
+                        qml_eyeTimerIsRunning = true
+                        // TODO: Make *60 multiplicatives apply to timer start function only for timerManager too
+                    }
+                    else {
+                        eyeTimer.eyeTimerStart(eyeTimer.eyeTimerRemainingTime/60, eyeTimer.eyeTimerBreakDuration, qml_onEyeBreak);
+                        qml_eyeTimerIsRunning = true
+                    }
+                }
+                else {
+                    eyeTimer.eyeTimerStart(eyeTimer.eyeTimerDuration_default, eyeTimer.eyeTimerBreakDuration_default, false)
+                    //eyeTimer.eyeTimerStart(.2, .02, false)
+                    qml_eyeTimerIsRunning = true
+                }
+            }
+        }
+
+        Button {
+            id: eyeTimerResetButton
+            //anchors.left: eyeTimerOnOffSwitch.right
+            //anchors.top: eyeTimerOnOffSwitch.
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: {
+                "Reset"
+            }
+            Material.background: Material.Grey
+            onClicked: {
+                eyeTimer.eyeTimerReset()
+                qml_eyeTimerIsRunning = false
+            }
         }
 
         Text {
@@ -491,18 +725,18 @@ ApplicationWindow {
             onActivated:
                 if (currentIndex===0) {
                     counterUser = 0;
-                    q_ultradianModeRequested = false;
+                    qml_ultradianModeRequested = false;
                 }
                 else if (currentIndex===1) {
                     counterUser = 1;
-                    q_ultradianModeRequested = false;
+                    qml_ultradianModeRequested = false;
                 }
                 else if (currentIndex===2) {
                     counterUser = 2;
-                    q_ultradianModeRequested = false;
+                    qml_ultradianModeRequested = false;
                 }
                 else if (currentIndex===3) {
-                    q_ultradianModeRequested = true;
+                    qml_ultradianModeRequested = true;
                     counterUser = 3 - 1; // 1 will be added in the next part, to match against counter = 3
                 }
         }
@@ -523,7 +757,10 @@ ApplicationWindow {
         function onWorkPeriodChanged() {
             timerManager.m_workPeriod = workTimeSelector.text
         }
-
     }
 
+/*    Connections {
+        target: eyeTimer
+        function
+    }*/
 }

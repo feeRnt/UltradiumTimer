@@ -1,9 +1,8 @@
-<!--SPDX-License-Identifier: GPL-3.0-only-->
-<!-- Main Qt Resource Collection file for UltradiumTimer-->
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
         <file>quotes.csv</file>
+        <file>SettingsMenu.qml</file>
     </qresource>
+    <qresource prefix="/settings_menu"/>
 </RCC>
-

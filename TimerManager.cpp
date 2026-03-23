@@ -21,11 +21,19 @@
 //#include <QDir>
 #include <QDebug>
 
+#include "SFXPlayer.h"
+
 TimerManager::TimerManager(QObject *parent)
-    : QObject(parent), m_remainingTime(0), m_onBreak(true), onPause(true), m_counter(0), m_ultradianModeOn(false),
-    m_workPeriod_min(25), m_shortBreakPeriod_min(5), m_longBreakPeriod_min(35)          // if you don't init ultradian, then it can't calcualte total remaining time
+    : QObject(parent), m_remainingTime(0), m_onBreak(true), m_counter(0), m_ultradianModeOn(false),
+    m_workPeriod_min(25), m_shortBreakPeriod_min(5), m_longBreakPeriod_min(35) /*,onPause(true)*/
+    // if you don't init ultradian, then it can't calcualte total remaining time
+
+    // Period_min are the default values, Duration are the called upon values.
+    // TODO: fix this insane naming scheme with normalize *_default variables as in EyeTimer.h/cpp
+
     //call the initializer function with the QObject as *parent, and then set the values of
     //of some of the variables of this class. (of a file, in essence)
+    //set QObject as QObject
 {
     connect(&m_timer, &QTimer::timeout, this, &TimerManager::updateTime);
     //sfxOutput = new ; sfxPlayer = new //use this for pointer objects,
@@ -42,17 +50,17 @@ TimerManager::TimerManager(QObject *parent)
 bool onPause = true;
 */ // Defined in header, and initialized in constructor above
 
-void TimerManager::start(float workDuration, float breakDuration, bool q_ultradianModeRequested, bool breakNess, int counterUser)
+void TimerManager::start(float qml_workDuration, float qml_breakDuration, bool qml_ultradianModeRequested, bool breakness, int counterUser)
 {
-    m_workDuration = workDuration * 60;
-    m_breakDuration = breakDuration * 60;
-    qInfo() << "Current breakDuration " << breakDuration;
-    qInfo() << "Current workDuration " << workDuration;
+    m_workDuration = qml_workDuration * 60;
+    m_breakDuration = qml_breakDuration * 60;
+    qInfo() << "Current breakDuration " << qml_breakDuration;
+    qInfo() << "Current workDuration " << qml_workDuration;
     qInfo() << "Current m_shortBreakPeriod_min " << m_shortBreakPeriod_min;
     qInfo() << "Current m_workPeriod_min " << m_workPeriod_min;
-    m_onBreak = breakNess;
+    m_onBreak = breakness;
     emit breakChanged();
-    m_ultradianModeRequested = q_ultradianModeRequested;
+    m_ultradianModeRequested = qml_ultradianModeRequested;
     //m_remainingTime = m_workDuration;
     //qInfo() << "Current m_onBreak = " << m_onBreak;
     m_counter = counterUser;
@@ -98,6 +106,7 @@ void TimerManager::reset()
 void TimerManager::m_shortBreakPeriod_minSetter(float m_shortBreakPeriod_minSet)
 {
     m_shortBreakPeriod_min = m_shortBreakPeriod_minSet;
+    // These setters set the default values (not the same as the ones in start())
 }
 
 void TimerManager::m_longBreakPeriod_minSetter(float m_longBreakPeriod_minSet)
@@ -139,6 +148,13 @@ void TimerManager::updateTime()
             emit ultradianModeChanged();
             m_remainingTime = m_longBreakPeriod_min*60;
             m_counter = 0;
+
+
+            /* You can run eye timer independently of workTimer, but when work timer's over,
+             * stop the eye timer as well */
+            /* m_eyeBreakPUBLIC_SETTER = 0;
+            emit eyeBreakChanged(); */
+
             emit counterUpdated();
             emit breakChanged();
             emit sessionComplete();
@@ -146,7 +162,8 @@ void TimerManager::updateTime()
             //emit ultradianModeChanged();
             m_ultradianModeRequested = false;
             //emit ultradianModeRequestChanged();
-//            elapsed->restart();
+            //elapsed->restart();
+
         }
         else {
         m_onBreak = !m_onBreak;
@@ -156,6 +173,12 @@ void TimerManager::updateTime()
         //m_remainingTime = m_onBreak ? m_breakDuration : m_workDuration;
         m_remainingTime = m_onBreak ? m_shortBreakPeriod_min*60 : m_workPeriod_min*60;
         m_ultradianModeOn= false;
+
+        /* You can run eye timer independently of workTimer, but when work timer's over,
+         * stop the eye timer as well */
+        /* m_eyeBreakPUBLIC_SETTER = 0;
+        emit eyeBreakChanged(); */
+
         emit ultradianModeChanged();
         emit breakChanged();
         emit sessionComplete();

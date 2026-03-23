@@ -22,9 +22,10 @@
 
 #include <QObject>
 #include <QTimer>
-//#include <QElapsedTimer>
+
 #include <QMediaPlayer>
 #include <QAudioOutput>
+//#include <QElapsedTimer>
 
 class TimerManager : public QObject { // A class TimerManager, inherited characteristics from QObject object
     Q_OBJECT
@@ -35,6 +36,7 @@ class TimerManager : public QObject { // A class TimerManager, inherited charact
     Q_PROPERTY(float workPeriod_min READ workPeriod_min NOTIFY workPeriodChanged)
     Q_PROPERTY(float shortBreakPeriod_min READ shortBreakPeriod_min NOTIFY shortBreakPeriodChanged)
     Q_PROPERTY(float longBreakPeriod_min READ longBreakPeriod_min NOTIFY longBreakPeriodChanged)
+    //even if you don't set this, without notify function QML will complain
 //    Q_PROPERTY(qint64 elapsed_time_minute READ elapsed_time_minute() NOTIFY elapsedTimeChanged)
 
     //Q_Properties are vars that can be accessed from QML.
@@ -61,12 +63,9 @@ public:
     float workPeriod_min() const { return m_workPeriod_min; }
     float shortBreakPeriod_min() const { return m_shortBreakPeriod_min; }
     float longBreakPeriod_min() const { return m_longBreakPeriod_min; }
-    /*QMediaPlayer sfxPlayer;
-    QAudioOutput sfxOutput;
-    */
+
     QMediaPlayer* sfxPlayer;
     QAudioOutput* sfxOutput;
-
 //    QElapsedTimer* elapsed;
 
 //    qint64 elapsed_time_minute() const { return (elapsed->elapsed())/1000*60; }
@@ -80,7 +79,7 @@ signals:
     void workPeriodChanged();
     void shortBreakPeriodChanged();
     void longBreakPeriodChanged();
-    void elapsedTimeChanged();
+    /* void elapsedTimeChanged(); */
 
 private slots:
     void updateTime();
@@ -93,8 +92,8 @@ private:
     bool m_ultradianModeOn; //things that are always in memory
     int m_counter;
     bool m_onBreak;
-    bool onPause;
     bool m_ultradianModeRequested;
+    /* bool onPause; */
 
     //    QString longBreakSFX = "231970__copyc4t__ding-4-secs-faded.flac";
     QString longBreakSFX = "qrc:/sound_resources/231970__copyc4t__ding-4-secs-faded.flac";

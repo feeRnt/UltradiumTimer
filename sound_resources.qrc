@@ -1,10 +1,10 @@
-<!--SPDX-License-Identifier: GPL-3.0-only-->
-<!-- Qt Resource Collection file for sounds -->
 <RCC>
     <qresource prefix="/sound_resources"/>
     <qresource prefix="/">
         <file>sound_resources/231970__copyc4t__ding-4-secs-faded.flac</file>
         <file>sound_resources/515612__mashedtatoes2__ding1.wav</file>
         <file>sound_resources/515643__mashedtatoes2__ding2.wav</file>
+        <file>sound_resources/Eye Intro.wav</file>
+        <file>sound_resources/Eye Outro.wav</file>
     </qresource>
 </RCC>

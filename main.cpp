@@ -22,24 +22,42 @@
 
 #include "TimerManager.h"
 #include "QuotesManager.h"
+#include "ColorPicker.h"
+#include "EyeTimer.h"
+
+/* #include <QFontDatabase> */
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
+    /* QFontDatabase::addApplicationEmojiFontFamily(":/Fonts/seguiemj.ttf"); */
+    // Seems the problem with emojis is in just selecting the unicode values.. */
     TimerManager timerManager;
     QuotesManager quotesManager(":/quotes.csv");
+    EyeTimer eyeTimer;
 
     engine.rootContext()->setContextProperty("timerManager", &timerManager);
     engine.rootContext()->setContextProperty("quotesManager", &quotesManager);
     /* Loads the context (resources, headers or other stuff) under which the engine will run*/
-    // qInfo() << "hello? in main.cpp";
+    /*                        Loads the C++ &quotesManager as "quotesManger" in QML         */
+    /* qInfo() << "Creating colorPicker instance of ColorPicker";
+    ColorPicker colorPicker;
+    qInfo() << "Loading &colorPicker as colorPicker in QML";
+    engine.rootContext()->setContextProperty("colorPicker", &colorPicker); */
+    // QWidget: Cannot create a QWidget without QApplication
+    engine.rootContext()->setContextProperty("eyeTimer", &eyeTimer);
+
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    /* Loads the main engine */
+    /* Loads the main QML engine; it needs a QGuiApplication (QApplication) first to function. */
+
+
     if (engine.rootObjects().isEmpty())
         return -1;
 
+    qInfo() << "Closing application normally.";
     return app.exec();
 }
 
