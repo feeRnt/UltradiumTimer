@@ -759,8 +759,10 @@ ApplicationWindow {
         }
     }
 
-/*    Connections {
-        target: eyeTimer
-        function
-    }*/
+    Connections {
+        target: timerManager
+        function onEyeTimerReset_from_timerManager() {
+            eyeTimer.eyeTimerReset()
+        }
+    }
 }

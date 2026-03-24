@@ -81,6 +81,8 @@ signals:
     void longBreakPeriodChanged();
     /* void elapsedTimeChanged(); */
 
+    void eyeTimerReset_from_timerManager();
+
 private slots:
     void updateTime();
 

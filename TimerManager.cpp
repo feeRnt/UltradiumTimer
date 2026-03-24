@@ -18,10 +18,11 @@
 
 #include "TimerManager.h"
 #include <QUrl>
-//#include <QDir>
+// #include <QDir>
 #include <QDebug>
 
 #include "SFXPlayer.h"
+// #include "EyeTimer.h"
 
 TimerManager::TimerManager(QObject *parent)
     : QObject(parent), m_remainingTime(0), m_onBreak(true), m_counter(0), m_ultradianModeOn(false),
@@ -152,8 +153,15 @@ void TimerManager::updateTime()
 
             /* You can run eye timer independently of workTimer, but when work timer's over,
              * stop the eye timer as well */
-            /* m_eyeBreakPUBLIC_SETTER = 0;
-            emit eyeBreakChanged(); */
+            /* EyeTimer *eyeTimer;
+            eyeTimer->eyeTimerReset(); */
+            // emit eyeBreakChanged(); // The called function should handle the private signal
+
+            // But this all seems impossible. The interconnection should be in main.cpp,
+            // but since that's mostly a placeholder for the QML, make the connection in main.qml's shared instance
+            // with connections
+
+            emit eyeTimerReset_from_timerManager();
 
             emit counterUpdated();
             emit breakChanged();
@@ -173,11 +181,6 @@ void TimerManager::updateTime()
         //m_remainingTime = m_onBreak ? m_breakDuration : m_workDuration;
         m_remainingTime = m_onBreak ? m_shortBreakPeriod_min*60 : m_workPeriod_min*60;
         m_ultradianModeOn= false;
-
-        /* You can run eye timer independently of workTimer, but when work timer's over,
-         * stop the eye timer as well */
-        /* m_eyeBreakPUBLIC_SETTER = 0;
-        emit eyeBreakChanged(); */
 
         emit ultradianModeChanged();
         emit breakChanged();
