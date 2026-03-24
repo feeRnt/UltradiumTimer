@@ -1,29 +1,36 @@
 ## Ultradium: A lightweight, customizable Qt application for work-break scheduling. Android, Windows and GNU-Linux. (Work in progress)
 
 The app's name, Ultradium, is based on the existence of the *Ultradian Cycles*, typically 90 to 120 minute cycles in humans and other mammals    
-or animal families, that govern the distribution of biological energy, i.e., work, focus and activity, and rest, i.e., sleep, relaxation and growth.
+(and other families), that govern the distribution of biological energy, i.e., work, focus, activity, and rest, i.e., sleep, relaxation and growth.
 
-The knowledge of these cycles can help govern how we choose to engage in our work and other important activities,    
-leading to a more balanced and attuned work-life schedule, and prevent burnout!
+The knowledge of these cycles can help govern how we choose to engage in our work and other important activities, leading to a more balanced work-life schedule, 
+and preventing burnout!
 
-While some other apps in the open-source scene already make use of this ultradian cycle concept,    
-I couldn't find any that combines **another** popular mechanism for proper work efficiency: The Pomodoro Technique,    
-which states that many of us work best when we work for 25 minutes, and take a 5 minute break on each such interval.
-
-
-Now joining together this 25 minute cycle followed by a 5 minute break idea,    
-with the 90 minute work approach followed by a 30 minute (typically) break, I devised the thought for this app!
+While there may be some open-source apps making use of this ultradian cycle concept, I couldn't find any that combines **another** popular mechanism for
+proper work efficiency: the Pomodoro Technique, which states that many of us work best when we work for 25 minutes, and take a 5 minute break on each such interval.
 
 
-I no longer have to constantly remember my timings, and can delegate the full focus to the work at hand.    
-I also included some inspirational quotes that I thought were worth a mention (some I struggled to justify a reason to still include).
+Joining together this 25 minute work - 5 minute break cycle, with the 90 minute work period with a 30 minute break, I devised the thought for this app!
+
+
+I no longer have to constantly remember my work timings, and can delegate the full focus to the work at hand. This has personally helped me greatly in not 
+getting burnt out from overworking.  
+I also included some inspirational quotes that I thought were worth a mention (even though I struggled to justify a reason to include some of them; don't worry
+you can turn these off if you wish).
+
+
+You can also adjust the work-break times if you want, for a more personalized experience.
 
 ----
 
 # The current version of the app is very much a work-in-progress:
-- There are many missing features, such as a journaling feature by day to keep track of your work
-- A proper settings menu to declutter everything from the main landing interface
-- Functioning notification system with Qt for Desktop and Mobile
+
+There are many missing features, such as: 
+- A journaling feature by day to keep track of your work,
+- A proper settings menu to declutter everything from the main interface.,
+- Functioning notification system with Qt for Desktop and Mobile,
+- Adjusting the background color for work or break periods with a color picker,
+- Removing or adding text to the quotes list,
 - Beautifying and clearing up the app's GUI, which is somehwat of a mess at present, and others
 - Oh and also, to compile for Android, which I still haven't tested
 
@@ -50,11 +57,13 @@ mkdir build_cmake_manual
 cd build_cmake_maunal
 cmake ..
 # I have not tested manually with CMake like this before, but it should work.
-# You will need to have your distro or OS' version of build-essentials installed beforehand of course.
+```
+You will need to have your distro or OS' version of build-essentials installed beforehand of course.
+```
+sudo apt install build-essential
 ```
 
-Detailed instructions for compiling and pre-built, **small** (hopefully! I didn't realize how big Qt could get) binaries/packages will
-be released in the future.
+Detailed instructions for compiling and pre-built, **small** (hopefully! I didn't realize how big Qt could get) binaries/packages will be released in the future.
 
 ## What does it look like?
 
@@ -72,6 +81,6 @@ Did I mention there are quotes?
 ----
 
 Credits: 
-- https://www.asianefficiency.com/productivity/ultradian-rhythms/ , this pretty nice article introduced me to the topic some months back    
+- https://www.asianefficiency.com/productivity/ultradian-rhythms/ , this pretty nice article originally introduced me to the topic
 - Me: Coded it (please star if you think it's cool!)
-- AI: Yes it helped, and gave boilerplate for the code early on in the initial phase
+- AI: Yes it helped, and gave boilerplate for the code in its initial phase
